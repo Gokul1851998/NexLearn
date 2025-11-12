@@ -1,0 +1,79 @@
+"use client";
+import React from "react";
+
+interface SelectedOption {
+  question_id: number;
+  id: number;
+  is_correct: boolean;
+  type: number; // 1, 2, 3, 4
+}
+
+interface Question {
+  question_id: number;
+  number: number;
+  question: string;
+  comprehension: string | null;
+  image: string | null;
+}
+
+interface QuestionGridProps {
+  total: number;
+  data: Question[];
+  selectedOptions: SelectedOption[];
+  current?: number;
+  onSelect?: (index: number) => void;
+}
+
+const QuestionGrid: React.FC<QuestionGridProps> = ({
+  total,
+  data,
+  selectedOptions,
+  current,
+  onSelect,
+}) => {
+  return (
+    <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
+      {Array.from({ length: total }, (_, i) => {
+        const q = data[i];
+        const selected = selectedOptions.find(
+          (s) => s.question_id === q?.question_id
+        );
+
+        // Determine background color based on type
+        let colorClass = "bg-gray-100 border-gray-300 text-gray-800";
+        if (selected) {
+          switch (selected.type) {
+            case 1:
+              colorClass = "bg-green-500 border-green-600 text-white";
+              break;
+            case 2:
+              colorClass = "bg-red-500 border-red-600 text-white";
+              break;
+            case 3:
+              colorClass = "bg-purple-500 border-purple-600 text-white";
+              break;
+            case 4:
+              colorClass = "bg-green-500 border-purple-600 text-white";
+              break;
+          }
+        }
+
+        // Highlight current question
+        const activeClass =
+          current === i ? "ring-2 ring-sky-500 ring-offset-1" : "";
+
+        return (
+          <button
+            key={q?.question_id || i}
+            onClick={() => onSelect && onSelect(i)}
+            className={`w-8 h-8 rounded-md text-xs font-semibold border cursor-pointer flex items-center justify-center transition-all duration-200 ${colorClass} ${activeClass} hover:scale-105`}
+          >
+            {i + 1}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+export default QuestionGrid;
