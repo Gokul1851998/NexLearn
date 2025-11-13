@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 import { CheckCircle, XCircle, ClipboardList, FileMinus } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 const ResultSummary= () => {
       const params = useSearchParams();
@@ -69,7 +69,7 @@ const ResultSummary= () => {
 
         {/* Done Button */}
         <button
-     
+         onClick={() => redirect('/auth/login')}
           className="w-full bg-[#1c2b36] text-white py-2 rounded-md hover:bg-[#2b3b48] transition"
         >
           Done

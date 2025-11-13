@@ -173,8 +173,6 @@ const QuestionList: React.FC = () => {
     );
   };
 
-  console.log(selectedOptions);
-
   if (loading)
     return (
       <p className="text-center text-gray-500 py-10">Loading questions...</p>
